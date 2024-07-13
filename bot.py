@@ -7,6 +7,9 @@ from datetime import datetime
 import json
 import random
 import brotli
+import http.server
+import socketserver
+import multiprocessing
 
 red = Fore.LIGHTRED_EX
 yellow = Fore.LIGHTYELLOW_EX
@@ -22,6 +25,15 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 # Construct the full paths to the files
 data_file = os.path.join(script_dir, "data.txt")
 
+PORT = 8080
+
+
+def web_server(): 
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("serving at port", PORT)
+        httpd.serve_forever()
 
 class Tomarket:
     def __init__(self):
@@ -186,6 +198,7 @@ class Tomarket:
         print(f"{black}[{now}]{reset} {msg}{reset}")
 
     def main(self):
+
         while True:
             self.clear_terminal()
             print(self.banner)
@@ -325,7 +338,10 @@ class Tomarket:
 
 
 if __name__ == "__main__":
-    try:
+    try:   
+        p = multiprocessing.Process(target=web_server, args=())
+        p.daemon = True
+        p.start()
         tomarket = Tomarket()
         tomarket.main()
     except KeyboardInterrupt:
