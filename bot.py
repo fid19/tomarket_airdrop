@@ -32,7 +32,7 @@ def web_server():
     Handler = http.server.SimpleHTTPRequestHandler
 
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print("serving at port", PORT)
+        print("serving at port", PORT, flush=True)
         httpd.serve_forever()
 
 class Tomarket:
@@ -195,7 +195,7 @@ class Tomarket:
 
     def log(self, msg):
         now = datetime.now().isoformat(" ").split(".")[0]
-        print(f"{black}[{now}]{reset} {msg}{reset}")
+        print(f"{black}[{now}]{reset} {msg}{reset}", flush=True)
 
     def main(self):
 
@@ -307,9 +307,9 @@ class Tomarket:
                         self.log(f"{red}Token not found!!!")
                 except Exception as e:
                     print(e)
-                    self.log(f"{red}Get auth data error!!!")
+                    self.log(f"{red}Get auth data error!!!", flush=True)
 
-            print()
+            print(flush=True)
             if end_at_list:
                 now = datetime.now().timestamp()
                 wait_times = [end_at - now for end_at in end_at_list if end_at > now]
