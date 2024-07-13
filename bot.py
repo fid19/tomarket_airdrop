@@ -201,7 +201,7 @@ class Tomarket:
 
         while True:
             self.clear_terminal()
-            print(self.banner)
+            print(self.banner, flush=True)
             data = open(data_file, "r").read().splitlines()
             num_acc = len(data)
             self.log(self.line)
@@ -306,8 +306,8 @@ class Tomarket:
                     else:
                         self.log(f"{red}Token not found!!!")
                 except Exception as e:
-                    print(e)
-                    self.log(f"{red}Get auth data error!!!", flush=True)
+                    print(e, flush=True)
+                    self.log(f"{red}Get auth data error!!!")
 
             print(flush=True)
             if end_at_list:
